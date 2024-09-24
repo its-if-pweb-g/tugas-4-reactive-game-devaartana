@@ -1,16 +1,21 @@
-<script>
+<script lang="ts">
   export let letter;
   export let letterIndex;
   export let wordIndex;
-  import { correctWord, currentWordIndex } from "../lib/gameLogic";
+  export let letterStatus;
+  import { guessWord, correctWord, currentWordIndex } from "../lib/gameLogic";
   import { fade } from "svelte/transition";
+  import CONSTANTS from "$lib/constants";
+
+  
 
   $: bgClass = () => {
+    
     const submitedWord = wordIndex < $currentWordIndex;
     
     if (submitedWord) {
       if (letter === $correctWord[letterIndex]) return "bg-green-500";
-      else if ($correctWord.includes(letter)) return "bg-yellow-500";
+      else if (letterStatus === CONSTANTS.LETTER_STATES.WRONG_SPOT) return "bg-yellow-500";
       else return "bg-gray-500";
     } else {
       return "bg-transparent";
